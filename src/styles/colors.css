@@ -1,0 +1,36 @@
+/* colors.css - ScanTrack Project Color Palette */
+
+/* Primary Color */
+.scantrack-theme {
+  --primary: #ea580c; /* Main Brand Color - Orange */
+  --primary-dark: #c2410c; /* Darker shade for hover effects */
+  --primary-light: #d78f09; /* Lighter shade for accents */
+
+  /* Neutral Colors */
+  --neutral-dark: #1f2937; /* Darkest Background */
+  --neutral-medium: #4f4c4c; /* Medium Dark Surface */
+  --neutral-light: #e5e7eb; /* Light Gray for Borders/Text */
+
+  /* Accent Colors */
+  --accent: #6d28d9; /* Purple Accent */
+
+  /* Text Colors */
+  --text-primary: #ffffff; /* Main Text Color */
+  --text-secondary: #d1d5db; /* Muted Text */
+  --text-disabled: #9ca3af; /* Disabled/Inactive Text */
+
+  /* Status Colors */
+  --error: #ef4444; /* Red for errors */
+  --warning: #f59e0b; /* Amber for warnings */
+  --info: #3b82f6; /* Blue for information */
+  --success: #056723; /* Green for success */
+
+  /* Shadows */
+  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0px 6px 12px rgba(0, 0, 0, 0.2);
+
+  /* Border */
+  --border: #4b5563; /* Border color */
+  --border-light: #6b7280; /* Lighter border */
+}

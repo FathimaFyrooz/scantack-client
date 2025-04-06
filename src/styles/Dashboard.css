@@ -1,0 +1,66 @@
+@import "./colors.css"; /* Use your ScanTrack color palette */
+
+/* Container for dashboard cards */
+.dashboard-container {
+  width: 70%;
+  
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns per row */
+  gap: 2rem; /* Space between cards */
+  margin-bottom: 2rem;
+}
+
+/* Individual card styling */
+.card {
+  background-color: var(--text-disabled);
+  font-family: 'Times New Roman', Times, serif;
+  margin-top: 15px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Card Title */
+.card-title {
+  font-size: 1.75rem;
+  color: var(--neutral-dark);
+  margin-bottom: 8px;
+}
+
+/* Main numeric value */
+.card-amount {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--neutral-dark);
+  margin-bottom: 4px;
+}
+
+/* Monthly difference indicator */
+.card-diff {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Positive or negative color classes */
+.card-diff.positive {
+  color: var(--success);
+}
+.card-diff.negative {
+  color: var(--error);
+}
+
+
+/* Responsive: stack cards on smaller screens */
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: 1fr; /* 1 column */
+  }
+}
+.card:hover{
+    background-color: var(--primary);
+}
