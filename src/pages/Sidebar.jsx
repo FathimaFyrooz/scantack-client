@@ -8,8 +8,9 @@ import {
   MdReceipt, 
   MdAssessment, 
   MdPerson, 
-  MdSettings 
+  MdSettings,
 } from "react-icons/md";
+import { BsClipboardDataFill } from "react-icons/bs";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -30,6 +31,11 @@ const Sidebar = () => {
           <li className="side-nav-item" onClick={() => handleNavigation("/mainpage/dashboard")}>
             <span className="side-nav-link">
               <MdDashboard className="side-nav-icon" /> Dashboard
+            </span>
+          </li>
+          <li className="side-nav-item" onClick={() => handleNavigation("/mainpage/ocr")}>
+            <span className="side-nav-link">
+              <BsClipboardDataFill className="side-nav-icon" /> OCR Extracted Data
             </span>
           </li>
           <li className="side-nav-item" onClick={() => handleNavigation("/mainpage/expenses")}>

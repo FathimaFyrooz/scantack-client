@@ -1,82 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { 
-  MdAdd, 
-  MdFilterList, 
-  MdSearch, 
-  MdFileUpload, 
-  MdDelete, 
-  MdOutlineRemoveRedEye, 
-  MdOutlineFileDownload,
-  MdOutlineLink,
-  MdDocumentScanner
+  MdAdd, MdFilterList, MdSearch, MdFileUpload, MdDelete, 
+  MdOutlineRemoveRedEye, MdOutlineFileDownload, MdOutlineLink, 
+  MdDocumentScanner 
 } from "react-icons/md";
 import '../styles/Receipts.css';
+import ReactModal from 'react-modal';
+import ReceiptUpload from './ReceiptUpload'; // adjust path as needed
+
 
 const Receipts = () => {
-  // Sample receipts data
-  const [receipts, setReceipts] = useState([
-    { 
-      id: 1, 
-      date: '2025-03-10', 
-      merchant: 'Office Supplies Co.', 
-      total: 124.99, 
-      status: 'Processed',
-      attachment: 'receipt-001.pdf',
-      expenseId: 'EXP-2025-001',
-      tags: ['office', 'quarterly']
-    },
-    { 
-      id: 2, 
-      date: '2025-03-08', 
-      merchant: 'AirFly Airlines', 
-      total: 349.50, 
-      status: 'Processed',
-      attachment: 'receipt-002.pdf',
-      expenseId: 'EXP-2025-002',
-      tags: ['travel', 'client-meeting']
-    },
-    { 
-      id: 3, 
-      date: '2025-03-05', 
-      merchant: 'Downtown Cafe', 
-      total: 42.75, 
-      status: 'Unprocessed',
-      attachment: 'receipt-003.jpg',
-      expenseId: null,
-      tags: ['meals']
-    },
-    { 
-      id: 4, 
-      date: '2025-03-02', 
-      merchant: 'Metro Transport', 
-      total: 25.00, 
-      status: 'Processing Error',
-      attachment: 'receipt-004.jpg',
-      expenseId: null,
-      tags: ['transport']
-    },
-    { 
-      id: 5, 
-      date: '2025-02-28', 
-      merchant: 'Tech Hardware Inc.', 
-      total: 899.99, 
-      status: 'Processed',
-      attachment: 'receipt-005.pdf',
-      expenseId: 'EXP-2025-003',
-      tags: ['equipment', 'it-department']
-    },
-  ]);
-
-  // States for filter and search
+  const [receipts, setReceipts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
-  // Filter statuses
+  const openUploadModal = () => setUploadModalOpen(true);
+const closeUploadModal = () => setUploadModalOpen(false);
+
+
+
+  // Fetch receipts from API
+  useEffect(() => {
+    const fetchReceipts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/ocr/ocr_data/', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          }
+        });
+
+        const transformedData = response.data.map(item => ({
+          id: item.id,
+          date: item.extracted_date,
+          merchant: item.extracted_merchant || 'Unknown Merchant',
+          total: parseFloat(item.extracted_amount) || 0,
+          status: 'Processed', // or use logic to infer status
+          attachment: 'placeholder.pdf', // replace with actual URL if available
+          expenseId: null,
+          tags: ['ocr']
+        }));
+
+        setReceipts(transformedData);
+      } catch (error) {
+        console.error("Failed to fetch receipts:", error);
+      }
+    };
+
+    fetchReceipts();
+  }, []);
+
   const statuses = ['All', 'Processed', 'Unprocessed', 'Processing Error'];
-  
-  // Filtered receipts
+
   const filteredReceipts = receipts.filter(receipt => {
-    const matchesSearch = receipt.merchant.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = receipt.merchant.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           receipt.attachment.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'All' || receipt.status === filterStatus;
     return matchesSearch && matchesStatus;
@@ -106,15 +84,16 @@ const Receipts = () => {
       </div>
 
       <div className="receipts-actions">
-        <button className="btn btn-primary">
-          <MdFileUpload /> Upload Receipt
-        </button>
-        <button className="btn btn-highlight">
+      <button className="btn btn-primary" onClick={openUploadModal}>
+  <MdFileUpload /> Upload Receipt
+</button>
+
+        {/* <button className="btn btn-highlight">
           <MdDocumentScanner /> Scan New Receipt
         </button>
         <button className="btn btn-secondary">
           <MdAdd /> Create Manual Entry
-        </button>
+        </button> */}
       </div>
 
       <div className="receipts-filters">
@@ -199,7 +178,20 @@ const Receipts = () => {
           <MdFileUpload /> Upload Receipt
         </button>
       </div>
+      <ReactModal
+  isOpen={uploadModalOpen}
+  onRequestClose={closeUploadModal}
+  contentLabel="Upload Receipt Modal"
+  className="upload-modal-content"
+  overlayClassName="upload-modal-overlay"
+  ariaHideApp={false} // Or set ReactModal.setAppElement('#root') in main app
+>
+  <ReceiptUpload />
+  <button onClick={closeUploadModal} className="modal-close-btn">Close</button>
+</ReactModal>
+
     </div>
+    
   );
 };
 

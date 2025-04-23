@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { MdClose, MdAttachFile } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
+import axios from 'axios';
 import '../styles/AddExpense.css';
 
 const AddExpense = ({ isOpen, onClose, onSave }) => {
@@ -8,8 +9,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
     merchant: '',
     amount: '',
     category: '',
-    notes: '',
-    receipt: null
+    notes: ''
   });
 
   const handleChange = (e) => {
@@ -20,29 +20,37 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
     });
   };
 
-  const handleFileChange = (e) => {
-    setExpenseData({
-      ...expenseData,
-      receipt: e.target.files[0]
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(expenseData);
-    resetForm();
-    onClose();
-  };
-
   const resetForm = () => {
     setExpenseData({
       date: new Date().toISOString().split('T')[0],
       merchant: '',
       amount: '',
       category: '',
-      notes: '',
-      receipt: null
+      notes: ''
     });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const accessToken = localStorage.getItem('access_token');
+
+    try {
+      await axios.post(
+        'http://127.0.0.1:8000/api/expenses/add_expense/',
+        expenseData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
+      onSave(); // Optionally refresh data or notify user
+      resetForm();
+      onClose();
+    } catch (error) {
+      console.error('Error saving expense:', error.response?.data || error.message);
+      alert('Failed to save expense.');
+    }
   };
 
   if (!isOpen) return null;
@@ -56,7 +64,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
             <MdClose />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="date">Date</label>
@@ -69,7 +77,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="merchant">Merchant</label>
             <input
@@ -82,7 +90,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="amount">Amount ($)</label>
             <input
@@ -97,7 +105,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="category">Category</label>
             <select
@@ -117,7 +125,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
               <option value="other">Other</option>
             </select>
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="notes">Notes (Optional)</label>
             <textarea
@@ -128,23 +136,7 @@ const AddExpense = ({ isOpen, onClose, onSave }) => {
               onChange={handleChange}
             />
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="receipt">Receipt (Optional)</label>
-            <div className="file-input-wrapper">
-              <input
-                type="file"
-                id="receipt"
-                name="receipt"
-                onChange={handleFileChange}
-                accept="image/*,.pdf"
-              />
-              <div className="file-input-custom">
-                <MdAttachFile /> {expenseData.receipt ? expenseData.receipt.name : 'Attach receipt'}
-              </div>
-            </div>
-          </div>
-          
+
           <div className="form-actions">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
               Cancel

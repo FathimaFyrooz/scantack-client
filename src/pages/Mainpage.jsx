@@ -7,6 +7,7 @@ import Expenses from "./Expenses";
 import Receipts from "./Receipts";
 import Reports from "./Reports";
 import ReceiptUpload from "./ReceiptUpload";
+import OCRExtractedData from "./OCRData";
 
 const MainPage = () => {
   return (
@@ -32,6 +33,7 @@ const MainPage = () => {
             <Route path='/receipts' element={<Receipts/>}/>
             <Route path='/reports' element={<Reports/>}/>
             <Route path='/upload' element={<ReceiptUpload/>}/>
+            <Route path='/ocr' element={<OCRExtractedData/>}/>
             {/* Add other routes like Expenses, Receipts, Reports here */}
           </Routes>
         </main>

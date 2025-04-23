@@ -14,6 +14,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/mainpage/*" element={<ProtectedRoute><MainPage/></ProtectedRoute>} />
         <Route path='/upload' element={<ProtectedRoute><ReceiptUpload/></ProtectedRoute>}/>
+        
       </Routes>
     </Router>
   );

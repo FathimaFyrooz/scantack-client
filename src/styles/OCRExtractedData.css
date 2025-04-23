@@ -1,0 +1,133 @@
+/* OCRExtractedData.css */
+
+.ocr-data-container {
+    padding: 24px;
+  }
+  
+  /* Using same styles as expenses for consistency */
+  .loading-message,
+  .no-results {
+    color: #d1d5db;
+    text-align: center;
+    padding: 30px 0;
+  }
+  
+  .error-message {
+    color: #ef4444;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  /* Additional action buttons */
+  .action-btn.view {
+    color: #6d28d9; /* using the accent color from your theme */
+  }
+  
+  .action-btn.view:hover {
+    background-color: rgba(109, 40, 217, 0.1);
+  }
+  
+  .action-btn.download {
+    color: #10b981; /* green color for download */
+  }
+  
+  .action-btn.download:hover {
+    background-color: rgba(16, 185, 129, 0.1);
+  }
+  
+  /* OCR Details Modal */
+  .ocr-detail-modal {
+    background-color: #1f2937;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 750px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease-out;
+    border: 1px solid #4b5563;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .detail-group {
+    margin-bottom: 24px;
+    background-color: #2d3748;
+    border-radius: 6px;
+    padding: 16px;
+  }
+  
+  .detail-group h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: #ea580c;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #4b5563;
+    padding-bottom: 8px;
+  }
+  
+  .detail-row {
+    display: flex;
+    margin-bottom: 12px;
+  }
+  
+  .detail-label {
+    flex: 0 0 120px;
+    font-weight: 500;
+    color: #9ca3af;
+  }
+  
+  .detail-value {
+    flex: 1;
+    color: #ffffff;
+  }
+  
+  .raw-text pre {
+    background-color: #374151;
+    border-radius: 4px;
+    padding: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #d1d5db;
+    font-family: monospace;
+    font-size: 0.9rem;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .modal-footer {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #4b5563;
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 768px) {
+    .detail-row {
+      flex-direction: column;
+    }
+    
+    .detail-label {
+      margin-bottom: 4px;
+    }
+    
+    .ocr-detail-modal {
+      width: 95%;
+    }
+  }
+  
+  /* Makes the table scrollable horizontally on small screens */
+  @media (max-width: 992px) {
+    .expenses-table-container {
+      overflow-x: auto;
+    }
+    
+    .expenses-table {
+      min-width: 800px;
+    }
+  }

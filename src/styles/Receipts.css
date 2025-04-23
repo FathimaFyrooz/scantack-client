@@ -374,6 +374,35 @@
     color: var(--text-secondary);
     margin-bottom: 24px;
   }
+  .upload-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .upload-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+  }
+  
+  .modal-close-btn {
+    margin-top: 1rem;
+    background-color: #f44336;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
   
   /* Responsive styles */
   @media (max-width: 992px) {
